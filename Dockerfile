@@ -14,7 +14,8 @@ RUN ./gradlew dependencies --no-daemon
 
 # Copy source code and build application jar
 COPY src ./src
-RUN ./gradlew assemble --no-daemon -x test
+RUN ./gradlew assemble --no-daemon -x test && \
+    (cp build/libs/*-all-optimized.jar /workspace/app.jar 2>/dev/null || cp build/libs/*-all.jar /workspace/app.jar)
 
 # Stage 2: Runtime image
 FROM eclipse-temurin:21-jre-alpine
@@ -27,8 +28,8 @@ RUN apk add --no-cache curl
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 RUN mkdir -p /app/data && chown -R appuser:appgroup /app
 
-# Copy built shadow jar from builder stage
-COPY --from=builder --chown=appuser:appgroup /workspace/build/libs/mail-sender-*-all.jar /app/app.jar
+# Copy built jar from builder stage
+COPY --from=builder --chown=appuser:appgroup /workspace/app.jar /app/app.jar
 
 USER appuser
 
