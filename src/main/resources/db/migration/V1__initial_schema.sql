@@ -1,6 +1,6 @@
--- Multitenant Mail Sender Database Schema (Operator Mode)
+-- Multitenant Mail Sender Database Schema (Flyway V1 Migration)
 
-CREATE TABLE IF NOT EXISTS tenants (
+CREATE TABLE tenants (
     id VARCHAR(64) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     daily_quota INT NOT NULL DEFAULT 10000,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS tenants (
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS mail_domains (
+CREATE TABLE mail_domains (
     id VARCHAR(64) PRIMARY KEY,
     tenant_id VARCHAR(64) NOT NULL,
     domain_name VARCHAR(255) NOT NULL UNIQUE,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS mail_domains (
     CONSTRAINT fk_domain_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS queued_emails (
+CREATE TABLE queued_emails (
     id VARCHAR(64) PRIMARY KEY,
     tenant_id VARCHAR(64) NOT NULL,
     domain_id VARCHAR(64) NOT NULL,
@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS queued_emails (
     CONSTRAINT fk_email_domain FOREIGN KEY (domain_id) REFERENCES mail_domains(id)
 );
 
-CREATE INDEX IF NOT EXISTS idx_emails_tenant_id ON queued_emails(tenant_id);
-CREATE INDEX IF NOT EXISTS idx_emails_domain_id ON queued_emails(domain_id);
-CREATE INDEX IF NOT EXISTS idx_emails_queue ON queued_emails(status, next_retry_at);
-CREATE INDEX IF NOT EXISTS idx_emails_created_at ON queued_emails(created_at);
-CREATE INDEX IF NOT EXISTS idx_domains_tenant_id ON mail_domains(tenant_id);
+CREATE INDEX idx_emails_tenant_id ON queued_emails(tenant_id);
+CREATE INDEX idx_emails_domain_id ON queued_emails(domain_id);
+CREATE INDEX idx_emails_queue ON queued_emails(status, next_retry_at);
+CREATE INDEX idx_emails_created_at ON queued_emails(created_at);
+CREATE INDEX idx_domains_tenant_id ON mail_domains(tenant_id);

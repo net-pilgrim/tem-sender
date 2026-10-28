@@ -17,7 +17,8 @@ It replaces fragile and expensive workarounds (Mailgun, Office 365 XOAUTH mailbo
 - **Transactional Outbox Reliability**: Guaranteed at-least-once delivery with persistent queueing, atomic worker locking, and exponential backoff retry with jitter on transient errors (HTTP 429, 5xx).
 - **Idempotency Protection**: Support for `Idempotency-Key` headers to prevent duplicate sends on network retries.
 - **Sync & Async Sending**: Supports asynchronous outbox queueing (default, high throughput) or instant synchronous delivery (`?sync=true`).
-- **Zero-Dependency Quickstart**: Built-in persistent H2 database in PostgreSQL mode (compatible with external PostgreSQL/MySQL via configuration).
+- **Database Migrations with Flyway**: Automated, version-controlled database schema migrations on startup (`src/main/resources/db/migration/V1__initial_schema.sql`) for both embedded H2 and external PostgreSQL databases.
+- **Zero-Dependency Quickstart**: Built-in persistent H2 database in PostgreSQL mode (compatible with external PostgreSQL via configuration).
 - **Interactive Swagger UI**: OpenAPI 3 documentation and UI at `/swagger-ui`.
 
 ---

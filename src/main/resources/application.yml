@@ -22,6 +22,12 @@ datasources:
     dialect: H2
     schema-generate: NONE
 
+flyway:
+  datasources:
+    default:
+      enabled: true
+      clean-schema: false
+
 scaleway:
   secret-key: ${SCW_SECRET_KEY:mock-scw-secret-key}
   project-id: ${SCW_PROJECT_ID:00000000-0000-0000-0000-000000000000}
