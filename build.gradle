@@ -84,7 +84,7 @@ tasks.named("dockerfileNative") {
 
 jib {
     from {
-        image = "azul/zulu-openjdk:25"
+        image = "azul/zulu-openjdk:25-jre"
     }
     to {
         image = "tem-sender:latest"

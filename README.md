@@ -93,6 +93,13 @@ Configure your registry in `build.gradle` or via command line:
 ./gradlew jib --image=ghcr.io/net-pilgrim/tem-sender:latest
 ```
 
+### 4. Pull Pre-built Image from GitHub Container Registry (GHCR)
+The CI pipeline automatically builds and publishes the container image to GHCR on every push to `master`:
+```bash
+docker pull ghcr.io/net-pilgrim/tem-sender:latest
+docker run -d -p 8080:8080 --env-file .env ghcr.io/net-pilgrim/tem-sender:latest
+```
+
 *(Note: A multi-stage [`Dockerfile`](Dockerfile) is also provided as an alternative for traditional Docker/Compose environments).*
 
 ---
