@@ -1,7 +1,7 @@
-# Multi-stage Dockerfile for Scaleway TEM Multitenant Mail Sender (Micronaut + Java 21)
+# Multi-stage Dockerfile for Scaleway TEM Multitenant Mail Sender (Micronaut + Java 25)
 
 # Stage 1: Build
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM azul/zulu-openjdk:25 AS builder
 WORKDIR /workspace
 
 # Copy Gradle wrapper and build configuration
@@ -18,7 +18,7 @@ RUN ./gradlew assemble --no-daemon -x test && \
     (cp build/libs/*-all-optimized.jar /workspace/app.jar 2>/dev/null || cp build/libs/*-all.jar /workspace/app.jar)
 
 # Stage 2: Runtime image
-FROM eclipse-temurin:21-jre-alpine
+FROM azul/zulu-openjdk:25-jre
 WORKDIR /app
 
 # Install curl for container healthcheck

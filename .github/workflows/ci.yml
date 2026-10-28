@@ -11,18 +11,18 @@ on:
 
 jobs:
   build-and-test:
-    name: Build & Test Microservice (Java 21)
+    name: Build & Test Microservice (Java 25)
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21 (Temurin)
+      - name: Set up JDK 25 (Zulu)
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'temurin'
+          java-version: '25'
+          distribution: 'zulu'
           cache: 'gradle'
 
       - name: Grant execute permission for gradlew
@@ -31,10 +31,15 @@ jobs:
       - name: Build with Gradle and run tests
         run: ./gradlew build --no-daemon
 
-      - name: Verify build artifacts
+      - name: Build Jib OCI/Docker container image (daemonless)
+        run: ./gradlew jibBuildTar --no-daemon
+
+      - name: Verify build and container artifacts
         run: |
           echo "Built JAR artifacts in build/libs:"
           ls -lh build/libs/
+          echo "Built Jib container tarball in build/:"
+          ls -lh build/jib-image.tar
 
       - name: Upload Application JAR artifact
         uses: actions/upload-artifact@v4
