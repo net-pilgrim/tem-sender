@@ -1,0 +1,19 @@
+datasources:
+  default:
+    url: jdbc:h2:mem:testDb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    dialect: H2
+
+scaleway:
+  secret-key: test-secret-key
+  project-id: test-project-id
+  region: fr-par
+  mock: true
+
+mail:
+  queue:
+    enabled: true
+    poll-interval: 60s
+    batch-size: 10
+    max-retries: 3
+    initial-retry-delay: 500ms
+    max-retry-delay: 2s

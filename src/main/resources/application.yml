@@ -1,0 +1,50 @@
+micronaut:
+  application:
+    name: mail-sender
+  server:
+    port: ${PORT:8080}
+    max-request-size: 16MB
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+
+datasources:
+  default:
+    url: ${DATABASE_URL:`jdbc:h2:file:./data/mail_sender;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE;MODE=PostgreSQL`}
+    driver-class-name: org.h2.Driver
+    username: ${DATABASE_USER:sa}
+    password: ${DATABASE_PASSWORD:}
+    dialect: H2
+    schema-generate: NONE
+
+scaleway:
+  secret-key: ${SCW_SECRET_KEY:mock-scw-secret-key}
+  project-id: ${SCW_PROJECT_ID:00000000-0000-0000-0000-000000000000}
+  region: ${SCW_REGION:fr-par}
+  mock: ${MOCK_SCALEWAY:false}
+
+security:
+  master-api-key: ${MASTER_API_KEY:master_super_secret_key_change_in_production}
+
+mail:
+  queue:
+    enabled: ${WORKER_ENABLED:true}
+    poll-interval: 2s
+    batch-size: 10
+    max-retries: 5
+    initial-retry-delay: 3s
+    max-retry-delay: 300s
+  default-daily-quota: 10000
+
+endpoints:
+  health:
+    enabled: true
+    sensitive: false
+  info:
+    enabled: true
+    sensitive: false

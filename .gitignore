@@ -1,0 +1,32 @@
+Thumbs.db
+.DS_Store
+.gradle/
+build/
+target/
+out/
+.micronaut/
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.settings
+.classpath
+.factorypath
+
+# Environment and secrets
+.env
+*.local
+
+# Database
+data/
+*.mv.db
+*.trace.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/

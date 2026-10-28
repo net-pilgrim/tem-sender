@@ -1,0 +1,31 @@
+services:
+  mail-sender:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scaleway-mail-sender
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - SCW_SECRET_KEY=${SCW_SECRET_KEY}
+      - SCW_PROJECT_ID=${SCW_PROJECT_ID}
+      - SCW_REGION=${SCW_REGION:-fr-par}
+      - MOCK_SCALEWAY=${MOCK_SCALEWAY:-false}
+      - MASTER_API_KEY=${MASTER_API_KEY:-master_super_secret_key_change_in_production}
+      - DATABASE_URL=jdbc:h2:file:/app/data/mail_sender;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE;MODE=PostgreSQL
+      - WORKER_ENABLED=true
+      - QUEUE_POLL_INTERVAL=2s
+      - QUEUE_BATCH_SIZE=10
+      - MAX_RETRY_ATTEMPTS=5
+      - INITIAL_RETRY_DELAY=3s
+      - MAX_RETRY_DELAY=300s
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
