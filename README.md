@@ -1,6 +1,6 @@
 # Scaleway TEM Multitenant Mail Sending Microservice
 
-A production-ready, reliable multi-tenant transactional email microservice built with **Java 25** and the **Micronaut 4** framework, powered by **Scaleway Transactional Email (TEM)**.
+A production-ready, reliable multi-tenant transactional email microservice built with **Java 25** and the **Micronaut 5.2** framework, powered by **Scaleway Transactional Email (TEM)**.
 
 It replaces fragile and expensive workarounds (Mailgun, Office 365 XOAUTH mailbox limits, stunnel to customer SMTP) with a unified, high-performance cloud solution featuring **cryptographic DKIM signing, automated SPF guidance, and a persistent transactional outbox**.
 
